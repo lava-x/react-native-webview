@@ -190,13 +190,15 @@ public class RNCWebViewModule extends ReactContextBaseJavaModule implements Acti
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   public boolean startPhotoPickerIntent(final ValueCallback<Uri[]> callback, final Intent intent, final String[] acceptTypes, final boolean allowMultiple) {
     filePathCallback = callback;
+    boolean isImageType = acceptsImages(acceptTypes);
+    boolean isVideoType = acceptsVideo(acceptTypes);
 
     ArrayList<Parcelable> extraIntents = new ArrayList<>();
     if (! needsCameraPermission()) {
-      if (acceptsImages(acceptTypes)) {
+      if (isImageType) {
         extraIntents.add(getPhotoIntent());
       }
-      if (acceptsVideo(acceptTypes)) {
+      if (isVideoType) {
         extraIntents.add(getVideoIntent());
       }
     }
